@@ -11,8 +11,9 @@ env:
 addons:
   firefox: latest
 
-  services:
+services:
   - postgresql
+
 jobs:
   include:
     - name: "Linter"
