@@ -7,7 +7,7 @@ from selenium import webdriver
 class TestHomePage(StaticLiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome('chromedriver')
 
     def tearDown(self):
         self.browser.close()
