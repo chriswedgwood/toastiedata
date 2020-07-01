@@ -7,6 +7,10 @@ python:
 addons:
   chrome: stable
 
+before_install:
+  - # start your web application and listen on `localhost`
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+
 services:
   - postgresql
 jobs:
@@ -25,10 +29,7 @@ jobs:
         - sudo apt-get install -qq graphviz-dev python-setuptools python3-dev python-virtualenv python-pip
         - sudo apt-get install -qq firefox automake libtool libreadline6 libreadline6-dev libreadline-dev
         - sudo apt-get install -qq libsqlite3-dev libxml2 libxml2-dev libssl-dev libbz2-dev wget curl llvm
-        - CHROME_MAIN_VERSION=`google-chrome-stable --version | sed -E 's/(^Google Chrome |\.[0-9]+ )//g'`
-        - CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAIN_VERSION"`
-        - curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
-        - unzip chromedriver_linux64.zip -d ~/bin
+
       language: python
       python:
         - "3.8"
