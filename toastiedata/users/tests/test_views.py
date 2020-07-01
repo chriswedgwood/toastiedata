@@ -5,11 +5,7 @@ from django.test import RequestFactory
 
 from toastiedata.users.models import User
 from toastiedata.users.tests.factories import UserFactory
-from toastiedata.users.views import (
-    UserRedirectView,
-    UserUpdateView,
-    user_detail_view,
-)
+from toastiedata.users.views import UserRedirectView, UserUpdateView, user_detail_view
 
 pytestmark = pytest.mark.django_db
 
