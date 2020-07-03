@@ -7,6 +7,7 @@ redis==3.5.0  # https://github.com/andymccurdy/redis-py
 hiredis==1.0.1  # https://github.com/redis/hiredis-py
 celery==4.4.5  # pyup: < 5.0  # https://github.com/celery/celery
 django-celery-beat==2.0.0  # https://github.com/celery/django-celery-beat
+Scrapy==2.2.0 # https://github.com/scrapy/scrapy
 
 # Django
 # ------------------------------------------------------------------------------
