@@ -22,11 +22,13 @@ class MemberPipeline(object):
 class RolePipeline(object):
       def process_item(self, item, spider):
           print('bnbnbnbn')
+          club = Club.objects.first()
           role, _ = Role.objects.get_or_create(title=item['role'])
-          meeting, _ = Meeting.objects.get_or_create(date=item['role_date'])
+          meeting, _ = Meeting.objects.get_or_create(date=item['role_date'],club=club)
           member = Member.objects.get(es_id=item['es_id'])
           role,_ = MemberRole.objects.get_or_create(member=member,role=role,meeting=meeting)
           return role
+          
 class SpeechPipeline(object):
       def process_item(self, item, spider):
           pathway = item['pathway']
@@ -38,11 +40,11 @@ class SpeechPipeline(object):
           
           member = Member.objects.get(es_id=item['es_id'])
           
-          
+          club = Club.objects.first()
           pathway, _ = Pathway.objects.get_or_create(title=pathway)
           pathway_level, _ = PathwayLevel.objects.get_or_create(title=level,pathway=pathway)
           pathway_speech, _ = PathwaySpeech.objects.get_or_create(title=speech_title,level=pathway_level)
-          meeting, _ = Meeting.objects.get_or_create(date=completed_date)
+          meeting, _ = Meeting.objects.get_or_create(date=completed_date,club=club)
           member_speech, _ = MemberSpeech.objects.get_or_create(title=speech_title,meeting=meeting,pathway_speech=pathway_speech,member=member)
           
           

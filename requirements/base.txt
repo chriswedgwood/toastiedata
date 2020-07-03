@@ -8,6 +8,9 @@ hiredis==1.0.1  # https://github.com/redis/hiredis-py
 celery==4.4.5  # pyup: < 5.0  # https://github.com/celery/celery
 django-celery-beat==2.0.0  # https://github.com/celery/django-celery-beat
 Scrapy==2.2.0 # https://github.com/scrapy/scrapy
+pandas==1.0.5 # https://github.com/pandas-dev/pandas
+beautifulsoup4==4.9.1 # https://code.launchpad.net/beautifulsoup
+scrapy-djangoitem==1.1.1 # https://github.com/scrapy-plugins/scrapy-djangoitem
 
 # Django
 # ------------------------------------------------------------------------------

@@ -1,5 +1,4 @@
 from scrapy_djangoitem import DjangoItem
-
 from toastiedata.club.models import Member
 
 

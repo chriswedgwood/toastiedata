@@ -2,12 +2,12 @@ from django.core.management.base import BaseCommand
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
-from toastiedata.club.models import Club
-from toastiedata.easyscrape.spiders.meeting import MeetingSpider
-from toastiedata.easyscrape.spiders.member import MemberSpider
-from toastiedata.easyscrape.spiders.role import RoleSpider
-from toastiedata.easyscrape.spiders.speech import SpeechSpider
+from easyscrape.spiders.meeting import MeetingSpider
+from easyscrape.spiders.member import MemberSpider
+from easyscrape.spiders.role import RoleSpider
+from easyscrape.spiders.speech import SpeechSpider
 
+from toastiedata.club.models import Club
 
 class Command(BaseCommand):
     help = "Release the spiders"

@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+import sys
+import os
+import django
+
+
+
 
 # Scrapy settings for easyscrape project
 #
@@ -8,6 +14,19 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+
+# DJANGO INTEGRATION
+
+sys.path.append(os.path.dirname(os.path.abspath('.')))
+# Do not forget the change iCrawler part based on your project name
+os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.local'
+
+# This is required only if Django Version > 1.8
+
+django.setup()
+
+# DJANGO INTEGRATION
+
 
 BOT_NAME = 'easyscrape'
 
