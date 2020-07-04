@@ -13,8 +13,8 @@ class Club(models.Model):
 class Member(models.Model):
     full_name = models.CharField(max_length=30)
     club = models.ManyToManyField(to=Club)
-    join_date = models.DateField()
-    es_id = models.IntegerField()
+    join_date = models.DateField(null=True)
+    es_id = models.IntegerField(unique=True)
 
     def __str__(self):
         return f'{self.full_name} '
@@ -26,11 +26,17 @@ class Role(models.Model):
     def __str__(self):
         return self.title
 
+class Award(models.Model):
+    title = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.title
+
 
 class Meeting(models.Model):
     
     date = models.DateField(unique=True)
-    club = models.ForeignKey(to=Club,on_delete=models.CASCADE)
+    club = models.ForeignKey(to=Club, on_delete=models.CASCADE)
    
 
     def __str__(self):
@@ -83,8 +89,16 @@ class MemberRole(models.Model):
 
 
 class Attendance(models.Model):
-    member = models.ForeignKey(to=Member,on_delete=models.CASCADE)
-    meeting = models.ForeignKey(to=Meeting,on_delete=models.CASCADE)
+    member = models.ForeignKey(to=Member, on_delete=models.CASCADE)
+    meeting = models.ForeignKey(to=Meeting, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.member)+'_'+ str(self.meeting)
+
+class MemberAward(models.Model):
+    member = models.ForeignKey(to=Member, on_delete=models.CASCADE)
+    award = models.ForeignKey(to=Award, on_delete=models.CASCADE)
+    meeting = models.ForeignKey(to=Meeting, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.member)

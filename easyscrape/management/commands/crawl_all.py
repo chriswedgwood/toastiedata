@@ -17,7 +17,6 @@ class Command(BaseCommand):
         Club.objects.get_or_create(title="London Victorians")
         process = CrawlerProcess(get_project_settings())
         
-        process.crawl(MemberSpider)
         process.crawl(SpeechSpider)
         process.crawl(MeetingSpider)
         process.crawl(RoleSpider)
