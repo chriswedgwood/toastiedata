@@ -7,23 +7,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('club', '0001_initial'),
+        ("club", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='member',
-            old_name='first_name',
-            new_name='full_name',
+            model_name="member", old_name="first_name", new_name="full_name",
         ),
-        migrations.RemoveField(
-            model_name='member',
-            name='last_name',
-        ),
+        migrations.RemoveField(model_name="member", name="last_name",),
         migrations.AddField(
-            model_name='member',
-            name='join_date',
-            field=models.DateField(default=datetime.datetime(2020, 4, 11, 9, 38, 10, 644635)),
+            model_name="member",
+            name="join_date",
+            field=models.DateField(
+                default=datetime.datetime(2020, 4, 11, 9, 38, 10, 644635)
+            ),
             preserve_default=False,
         ),
     ]

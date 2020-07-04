@@ -1,11 +1,8 @@
-
-
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 
 
 class TestHomePage(StaticLiveServerTestCase):
-
     def setUp(self):
         self.browser = webdriver.Firefox()
 
@@ -16,8 +13,5 @@ class TestHomePage(StaticLiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         # The user opens the home page
-        brand = self.browser.find_element_by_class_name('navbar-brand')
-        self.assertEquals(
-            brand.text,
-            'toastiedata'
-        )
+        brand = self.browser.find_element_by_class_name("navbar-brand")
+        self.assertEquals(brand.text, "toastiedata")

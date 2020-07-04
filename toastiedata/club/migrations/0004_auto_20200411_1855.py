@@ -6,21 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('club', '0003_member_es_id'),
+        ("club", "0003_member_es_id"),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='meeting',
-            name='time',
-        ),
-        migrations.RemoveField(
-            model_name='meeting',
-            name='title',
-        ),
+        migrations.RemoveField(model_name="meeting", name="time",),
+        migrations.RemoveField(model_name="meeting", name="title",),
         migrations.AlterField(
-            model_name='meeting',
-            name='date',
-            field=models.DateField(unique=True),
+            model_name="meeting", name="date", field=models.DateField(unique=True),
         ),
     ]

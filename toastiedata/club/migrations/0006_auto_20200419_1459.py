@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('club', '0005_auto_20200419_1456'),
+        ("club", "0005_auto_20200419_1456"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='pathwaylevel',
-            name='title',
+            model_name="pathwaylevel",
+            name="title",
             field=models.CharField(max_length=100),
         ),
         migrations.AlterField(
-            model_name='pathwayspeech',
-            name='title',
+            model_name="pathwayspeech",
+            name="title",
             field=models.CharField(max_length=100),
         ),
     ]

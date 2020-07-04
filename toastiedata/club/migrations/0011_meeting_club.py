@@ -7,14 +7,16 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('club', '0010_attendance'),
+        ("club", "0010_attendance"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='meeting',
-            name='club',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='club.Club'),
+            model_name="meeting",
+            name="club",
+            field=models.ForeignKey(
+                default=1, on_delete=django.db.models.deletion.CASCADE, to="club.Club"
+            ),
             preserve_default=False,
         ),
     ]

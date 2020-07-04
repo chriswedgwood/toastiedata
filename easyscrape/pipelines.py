@@ -1,16 +1,16 @@
 from toastiedata.club.models import (
+    Attendance,
+    Award,
     Club,
     Meeting,
     Member,
+    MemberAward,
     MemberRole,
     MemberSpeech,
     Pathway,
     PathwayLevel,
     PathwaySpeech,
     Role,
-    Attendance,
-    Award,
-    MemberAward,
 )
 
 

@@ -10,11 +10,9 @@ from .models import Member
 def member_summary(request):
     query = Member.objects.all().values()
     data = alt.Data(values=list(query))
-    chart_obj = alt.Chart(data).mark_bar().encode(
-
-    )
-    return JsonResponse(chart_obj,safe=False)
+    chart_obj = alt.Chart(data).mark_bar().encode()
+    return JsonResponse(chart_obj, safe=False)
 
 
 def index_page(request):
-    return render(request,"index_page.html")
+    return render(request, "index_page.html")
