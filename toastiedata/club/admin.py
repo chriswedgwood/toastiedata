@@ -1,6 +1,16 @@
 from django.contrib import admin
 
-from toastiedata.club.models import *
+from toastiedata.club.models import (
+    Club,
+    Meeting,
+    Member,
+    MemberRole,
+    MemberSpeech,
+    Pathway,
+    PathwayLevel,
+    PathwaySpeech,
+    Role,
+)
 
 
 class MemberSpeechAdmin(admin.ModelAdmin):

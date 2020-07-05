@@ -1,20 +1,16 @@
 import csv
-import os
-import re
 from datetime import datetime
 
-import pandas as pd
 import scrapy
 from bs4 import BeautifulSoup
-from scrapy import Spider
-from scrapy.http import FormRequest, Request
-from scrapy.utils.response import open_in_browser
+from scrapy.http import Request
 
 
 def authentication_failed(response):
     # TODO: Check the contents of the response and return True if it failed
     # or False if it succeeded.
     pass
+
 
 class RoleSpider(scrapy.Spider):
     name = 'roles'
@@ -27,7 +23,6 @@ class RoleSpider(scrapy.Spider):
         }
     }
 
-
     def parse(self, response):
         return scrapy.FormRequest.from_response(
             response,
@@ -37,63 +32,48 @@ class RoleSpider(scrapy.Spider):
 
     def after_login(self, response):
         url = 'https://toastmasterclub.org/memberchart.php?c=486&chart=9'
-        yield Request(
-                url=url,
-                callback=self.action)
-
+        yield Request(url=url, callback=self.action)
 
     def action(self, response):
         with open('tm_roles.csv', 'w', newline='\n', encoding='utf-8') as f:
             writer = csv.writer(f)
-            writer.writerow(["id", "Name","Role","Date"])
-        
+            writer.writerow(["id", "Name", "Role", "Date"])
+
         data = response.text
         soup = BeautifulSoup(data, features="lxml")
-        workbook_history_table =  soup.find(string="Mentor").find_parent("table")
-        l = []
-        df = pd.read_html(str(workbook_history_table))
+        workbook_history_table = soup.find(string="Mentor").find_parent("table")
         table_rows = workbook_history_table.find_all('tr')
         user_ids = []
         for tr in table_rows:
             td = tr.find_all('td')
             row = [i.text.strip('\n') for i in td]
             print(row)
-            if len(td) >1:
-                user_id= td[0].span.a['href'][-5:]
+            if len(td) > 1:
+                user_id = td[0].span.a['href'][-5:]
                 if user_id not in user_ids:
                     user_ids.append(user_id)
-            
         print(f'USER_IDS:{user_ids}')
 
         for id in user_ids:
             url = f'https://toastmasterclub.org/tm_stats.php?u={id}&s=1'
-            yield Request(url=url,callback=self.get_role_history,meta={'id':id})
-            
-        
-            
+            yield Request(url=url, callback=self.get_role_history, meta={'id': id})
 
-    def get_role_history(self,response):
-        
+    def get_role_history(self, response):
         id = response.meta.get('id')
-      
         self.member_ids.append(id)
         data = response.text
         soup = BeautifulSoup(data, features="lxml")
-        name = soup.find('span',{"class": "maintitle"}).text
+        name = soup.find('span', {"class": "maintitle"}).text
         roles_table = soup.find(string="Status").find_parent("table")
-     
         table_rows = roles_table.find_all('tr')
-        
         for tr in table_rows[1:]:
-            
             role = None
-            role_date = None    
+            role_date = None
             if tr.find('a'):
                 role = tr.find('a').text
-            if tr.find_all('span'):     
-                role_date = tr.find_all('span')[-1].text.strip() 
+            if tr.find_all('span'):
+                role_date = tr.find_all('span')[-1].text.strip()
                 role_date = datetime.strptime(role_date, '%d %b %y').date()
-            
             if role:
-                item = {'es_id':id,'full_name':name,'role':role,'role_date':role_date} 
+                item = {'es_id': id, 'full_name': name, 'role': role, 'role_date': role_date}
                 yield item
