@@ -2,6 +2,7 @@
 Base settings to build other settings files upon.
 """
 from pathlib import Path
+import os
 
 import environ
 
@@ -74,6 +75,7 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "rest_framework",
     "rest_framework.authtoken",
+    "webpack_loader",
 ]
 
 LOCAL_APPS = [
@@ -303,7 +305,15 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+print(str(ROOT_DIR / "webpack-stats.json"))
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': str(ROOT_DIR / "webpack-stats.json"),
+    }
+}

@@ -1,5 +1,7 @@
 from django.conf import settings
+from django.urls import path
 from rest_framework.routers import DefaultRouter, SimpleRouter
+from toastiedata.club.api.views import MemberList
 
 from toastiedata.users.api.views import UserViewSet
 
@@ -11,5 +13,11 @@ else:
 router.register("users", UserViewSet)
 
 
+
 app_name = "api"
 urlpatterns = router.urls
+
+urlpatterns += [
+    path('members/', MemberList.as_view()),
+    
+]

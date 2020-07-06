@@ -106,9 +106,13 @@
       <!-- place project specific Javascript in this file -->
       
       <script src="{% static 'js/project.js' %}"></script>
+
       
 
     {% endblock javascript %}
+     {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+      {% endblock %}
   </body>
 </html>
  
