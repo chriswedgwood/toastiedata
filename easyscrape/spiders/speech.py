@@ -12,7 +12,7 @@ class SpeechSpider(scrapy.Spider):
     start_urls = ["https://toastmasterclub.org/login.php"]
     member_ids = []
 
-    custom_settings = {"ITEM_PIPELINES": {"easyscrape.pipelines.SpeechPipeline": 300, }}
+    custom_settings = {"ITEM_PIPELINES": {"easyscrape.pipelines.SpeechPipeline": 300,}}
 
     def parse(self, response):
         return scrapy.FormRequest.from_response(
@@ -71,9 +71,7 @@ class SpeechSpider(scrapy.Spider):
             pathway = span.text.strip().replace("(Pathway) ", "")
             print(pathway)
 
-        for _, tr in enumerate(
-            workbook_history_table.find_all("tr", recursive=False)
-        ):
+        for _, tr in enumerate(workbook_history_table.find_all("tr", recursive=False)):
             pathway = tr.find("span", {"class": "smalltitle"}) or None
             speech_span = tr.find("span", {"class": "gen"}) or None
 

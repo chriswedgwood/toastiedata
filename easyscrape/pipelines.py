@@ -78,7 +78,7 @@ class MeetingPipeline(object):
             if created:
                 member.full_name = attendee[0]
                 member.save()
-            attendance, _ = Attendance.objects.get_or_create(
+            m_attendance, _ = Attendance.objects.get_or_create(
                 member=member, meeting=meeting
             )
         for item_award in awards:

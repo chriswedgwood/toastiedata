@@ -15,9 +15,9 @@ import django
 
 # DJANGO INTEGRATION
 
-sys.path.append(os.path.dirname(os.path.abspath('.')))
+sys.path.append(os.path.dirname(os.path.abspath(".")))
 # Do not forget the change iCrawler part based on your project name
-os.environ['DJANGO_SETTINGS_MODULE'] = 'config.settings.local'
+os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings.local"
 
 # This is required only if Django Version > 1.8
 
@@ -26,10 +26,10 @@ django.setup()
 # DJANGO INTEGRATION
 
 
-BOT_NAME = 'easyscrape'
+BOT_NAME = "easyscrape"
 
-SPIDER_MODULES = ['easyscrape.spiders']
-NEWSPIDER_MODULE = 'easyscrape.spiders'
+SPIDER_MODULES = ["easyscrape.spiders"]
+NEWSPIDER_MODULE = "easyscrape.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -109,4 +109,4 @@ ROBOTSTXT_OBEY = False
 ITEM_PIPELINES = {
     # "easyscrape.pipelines.MemberPipeline": 300,
     "easyscrape.pipelines.RolePipeline": 200
-    }
+}

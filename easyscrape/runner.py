@@ -6,13 +6,7 @@ os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
 try:
     execute(
-        [
-            'scrapy',
-            'crawl',
-            'members',
-            '-o',
-            'out.json',
-        ]
+        ["scrapy", "crawl", "members", "-o", "out.json",]
     )
 except SystemExit:
     pass

@@ -17,12 +17,8 @@ class MeetingSpider(scrapy.Spider):
     name = "meetings"
     start_urls = ["https://toastmasterclub.org/login.php"]
     member_ids = []
-    attendance_history = []
-    meeting_awards = []
-    meeting_roles = []
-    meeting_datetime = None
 
-    custom_settings = {"ITEM_PIPELINES": {"easyscrape.pipelines.MeetingPipeline": 300, }}
+    custom_settings = {"ITEM_PIPELINES": {"easyscrape.pipelines.MeetingPipeline": 300,}}
 
     def parse(self, response):
         return scrapy.FormRequest.from_response(
@@ -50,7 +46,10 @@ class MeetingSpider(scrapy.Spider):
         yield Request(url=last_url, callback=self.get_meeting_history)
 
     def get_meeting_history(self, response):
-
+        meeting_awards = []
+        meeting_roles = []
+        meeting_datetime = None
+        meeting_attendance = []
         data = response.text
         soup = BeautifulSoup(data, features="lxml")
         previous = soup.find(string="Previous")
@@ -60,7 +59,7 @@ class MeetingSpider(scrapy.Spider):
             last_url = f"https://toastmasterclub.org/{href}"
             main_title = soup.find("td", {"class": "maintitle"})
             date_componenets = main_title.text.split(" ")
-            self.meeting_datetime = parse(
+            meeting_datetime = parse(
                 f"{date_componenets[1]} {date_componenets[2]} {date_componenets[3]} {date_componenets[5]}"
             )
 
@@ -77,7 +76,7 @@ class MeetingSpider(scrapy.Spider):
                     if p_match:
                         user_id = p_match[0][2:]
 
-                        self.attendance_history.append((member_name, user_id))
+                        meeting_attendance.append((member_name, user_id))
             # WINNERS
             ribbon = soup.findAll(text=re.compile("Ribbon /+"))
             if ribbon:
@@ -95,7 +94,7 @@ class MeetingSpider(scrapy.Spider):
                         if p_match:
                             user_id = p_match[0][2:]
 
-                            self.meeting_awards.append((award, member_name, user_id))
+                            meeting_awards.append((award, member_name, user_id))
             # ACTUAL ROLES
             role_header = soup.findAll("th", {"class": "thLeft"}, text="Role")
             if role_header:
@@ -121,22 +120,22 @@ class MeetingSpider(scrapy.Spider):
 
                         if p_match:
                             user_id = p_match[0][2:]
-                            self.meeting_roles.append((role, member_name, user_id))
+                            meeting_roles.append((role, member_name, user_id))
 
             meeting_data = {
-                "meeting_datetime": self.meeting_datetime,
-                "attendance": self.attendance_history,
-                "awards": self.meeting_awards,
-                "roles": self.meeting_roles,
+                "meeting_datetime": meeting_datetime,
+                "attendance": meeting_attendance,
+                "awards": meeting_awards,
+                "roles": meeting_roles,
             }
             yield meeting_data
             yield Request(url=last_url, callback=self.get_meeting_history)
         else:
-            print(self.meeting_roles)
+            print(meeting_roles)
             meeting_data = {
-                "meeting_datetime": self.meeting_datetime,
-                "attendance": self.attendance_history,
-                "awards": self.meeting_awards,
-                "roles": self.meeting_roles,
+                "meeting_datetime": meeting_datetime,
+                "attendance": meeting_attendance,
+                "awards": meeting_awards,
+                "roles": meeting_roles,
             }
             yield meeting_data

@@ -12,7 +12,7 @@ class MemberSpider(scrapy.Spider):
     start_urls = ["https://toastmasterclub.org/login.php"]
     member_ids = []
 
-    custom_settings = {"ITEM_PIPELINES": {"easyscrape.pipelines.MemberPipeline": 300, }}
+    custom_settings = {"ITEM_PIPELINES": {"easyscrape.pipelines.MemberPipeline": 300,}}
 
     def parse(self, response):
         return scrapy.FormRequest.from_response(
@@ -29,7 +29,7 @@ class MemberSpider(scrapy.Spider):
         with open("tm_members.csv", "w", newline="\n", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow(
-                ["id", "Name", "Joined", ]
+                ["id", "Name", "Joined",]
             )
 
         data = response.text

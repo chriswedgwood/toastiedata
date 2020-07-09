@@ -1,8 +1,8 @@
 """
 Base settings to build other settings files upon.
 """
-from pathlib import Path
 import os
+from pathlib import Path
 
 import environ
 
@@ -42,9 +42,7 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-DATABASES = {
-    "default": env.db("DATABASE_URL", default="postgres:///toastiedata")
-}
+DATABASES = {"default": env.db("DATABASE_URL", default="postgres:///toastiedata")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
@@ -82,8 +80,7 @@ LOCAL_APPS = [
     "toastiedata.users.apps.UsersConfig",
     # Your stuff: custom apps go here
     "toastiedata.club",
-    "easyscrape"
-
+    "easyscrape",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -266,7 +263,7 @@ if USE_TZ:
     # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-timezone
     CELERY_TIMEZONE = TIME_ZONE
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-broker_url
-CELERY_BROKER_URL = env("CELERY_BROKER_URL", default='redis://localhost:6379')
+CELERY_BROKER_URL = env("CELERY_BROKER_URL", default="redis://localhost:6379")
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-result_backend
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 # http://docs.celeryproject.org/en/latest/userguide/configuration.html#std:setting-accept_content
@@ -305,15 +302,14 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",
     ),
-    
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
 
 print(str(ROOT_DIR / "webpack-stats.json"))
 WEBPACK_LOADER = {
-    'DEFAULT': {
-        'BUNDLE_DIR_NAME': 'bundles/',
-        'STATS_FILE': str(ROOT_DIR / "webpack-stats.json"),
+    "DEFAULT": {
+        "BUNDLE_DIR_NAME": "bundles/",
+        "STATS_FILE": str(ROOT_DIR / "webpack-stats.json"),
     }
 }

@@ -1,13 +1,12 @@
 {
   "name": "toastiedata",
   "version": "1.0.0",
-  "description": "toastiedata ===========",
+  "description": "",
   "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.config.js --progress --colors --mode development",
+    "watch": "webpack --config webpack.config.js --watch --mode development",
+    "build-prod": "webpack --config webpack.config.js --progress --colors --mode production"
   },
   "repository": {
     "type": "git",
@@ -18,5 +17,38 @@
   "bugs": {
     "url": "https://github.com/chriswedgwood/toastiedata/issues"
   },
-  "homepage": "https://github.com/chriswedgwood/toastiedata#readme"
+  "homepage": "https://github.com/chriswedgwood/toastiedata#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "browser-sync": "^2.26.7",
+    "del": "^2.2.2",
+    "run-sequence": "^1.2.2",
+    "webpack": "^4.30.0",
+    "webpack-bundle-tracker": "^0.4.3",
+    "webpack-cli": "^3.3.1"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@material-ui/core": "^4.9.3",
+    "@types/react": "^16.9.5",
+    "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "chart.js": "^2.8.0",
+    "chartjs-plugin-annotation": "^0.5.7",
+    "file-loader": "^6.0.0",
+    "geolib": "^3.2.1",
+    "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.14",
+    "react-chartjs-2": "^2.7.6",
+    "react-dom": "^16.8.6",
+    "react-native": "^0.62.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2"
+  }
 }
