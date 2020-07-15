@@ -2,6 +2,10 @@ import React from 'react';
 import Nav from 'react-bootstrap/Nav'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Form from 'react-bootstrap/Form'
+import {
+  DateInput,
+} from 'semantic-ui-calendar-react';
 
 import _ from 'lodash'
 
@@ -12,60 +16,90 @@ const ENTER_KEY = 13;
 class ToastieDataSearchForm extends React.Component {
   constructor(props) {
     super(props);
-    this.handleTableTypeChange = this.handleTableTypeChange.bind(this);
+    this.handleAreaChange = this.handleAreaChange.bind(this);
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
     this.state = {}
 
   }
 
-  handleTableTypeChange(eventKey,e) {
-    console.log(e)
-    this.props.onTableTypeChange(e.target.innerText);
+  handleAreaChange(eventKey, e) {
+
+    this.props.onAreaChange(e.target.innerText);
 
   }
-  handleStartChange(e) {
-    this.props.onStartChange(e.target.value);
+  
+  handleStartChange = (event, { name, value }) => {
+    
+    this.props.onStartChange(value);
   }
 
-  handleEndChange(e) {
-    this.props.onEndChange(e.target.value);
+  handleEndChange = (event, { name, value }) => {
+    /*if (this.state.hasOwnProperty(name)) {
+      this.setState({ [name]: value });
+    }*/
+    this.props.onEndChange(value);
   }
   render() {
     //let day = this.props.day;
-    let reportOption = this.props.reportOption;
-    
+    let area = this.props.area;
+    let start = this.props.start;
+    let end  = this.props.end;
 
-    const reportOptions = ["Members","Awards"]
-    let activeIndex = reportOptions.findIndex(element => element.includes(reportOption));
-    
 
-    let reportNav =  reportOptions.map((value, index) => 
-    <Nav.Item key={index}>
-    <Nav.Link onSelect={this.handleTableTypeChange} eventKey={index}>{value}</Nav.Link>
-  </Nav.Item>
-  )
 
-    
-      
-     
+
+    const areas = ["Members", "Awards"]
+    let activeIndex = areas.findIndex(element => element.includes(area));
+
+
+    let reportNav = areas.map((value, index) =>
+      <Nav.Item key={index}>
+        <Nav.Link onSelect={this.handleAreaChange} eventKey={index}>{value}</Nav.Link>
+      </Nav.Item>
+    )
+
+
+
+
 
     return (
 
       <div className={'toastie-search-form'}>
-        <Row className="justify-content-center ">
-          <Col className="days" xs={10}>
-          <Row><Nav fill variant="pills" activeKey={activeIndex} defaultActiveKey="0" >
-         {reportNav} 
-          
+        <Form autoComplete="off">
+          <Row className="justify-content-center ">
+            <Col className="days" xs={10}>
+              <Nav fill variant="pills" activeKey={activeIndex} defaultActiveKey="0" >
+                {reportNav}
 
-</Nav></Row></Col></Row>
-        <Row>  
-        <Col>
-       
-        </Col> 
-        </Row>
-        
+
+              </Nav>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <DateInput
+                name="date"
+                placeholder="From"
+                value={start}
+                iconPosition="right"
+                onChange={this.handleStartChange}
+                dateFormat="YYYY-MM-DD"
+
+              />
+            </Col>
+            <Col>
+              <DateInput
+                name="date"
+                placeholder="To"
+                value={end}
+                iconPosition="right"
+                onChange={this.handleEndChange}
+                dateFormat="YYYY-MM-DD"
+              />
+            </Col>
+          </Row>
+        </Form>
       </div>
     );
   }

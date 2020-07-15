@@ -30,7 +30,7 @@ class MeetingSpider(scrapy.Spider):
     def after_login(self, response):
 
         url = "https://toastmasterclub.org/view_meeting.php?c=486&show=next"
-        url = "https://toastmasterclub.org/view_meeting.php?t=63903"
+        #url = "https://toastmasterclub.org/view_meeting.php?t=65020"
         yield Request(url=url, callback=self.action)
 
     def action(self, response):
