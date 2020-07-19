@@ -288,3 +288,4 @@ toastiedata/media/
 
 *.csv
 webpack-stats.json
+toastiedata/static/bundles/
