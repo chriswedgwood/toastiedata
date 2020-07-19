@@ -286,3 +286,5 @@ toastiedata/media/
 .pytest_cache/
 
 
+*.csv
+webpack-stats.json
