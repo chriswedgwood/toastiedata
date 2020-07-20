@@ -2,7 +2,7 @@ from django.db import connection
 from django.shortcuts import render
 from rest_framework import generics
 from toastiedata.club.models import Member
-from .serializers import MemberSerializer
+from .serializers import MemberSerializer, BestSpeakerSerializer
 # Create your views here.
 
 
@@ -16,7 +16,6 @@ class MemberList(generics.ListAPIView):
     serializer_class = MemberSerializer
 
     def get_queryset(self):
-        
 
         start = self.request.query_params.get('start', '2000-01-01')
         end = self.request.query_params.get('end', '2025-01-01')
@@ -28,7 +27,7 @@ class MemberList(generics.ListAPIView):
 
         sql_query = """SELECT M.id,M.es_id,full_name,join_date,coalesce(meeting_count,0) meeting_count,coalesce(role_count,0) role_count,
         coalesce(speech_count,0) speech_count FROM club_member M 
-    LEFT JOIN (SELECT es_id,count(*) meeting_count FROM club_attendance A
+        LEFT JOIN (SELECT es_id,count(*) meeting_count FROM club_attendance A
             JOIN club_meeting M On M.id=A.meeting_id
             JOIN club_member CM ON CM.id = A.member_id
             WHERE M.date > %s and M.date < %s
@@ -52,11 +51,125 @@ class MemberList(generics.ListAPIView):
     WHERE M.join_date IS NOT NULL"""
 
 
-        print(sql_query)
-        print(start)
-        print(end)
+       
         # cursor = connection.cursor()
         # cursor.execute(sql_query)
         result = Member.objects.raw(sql_query, [start, end, start, end, start, end])
             
         return result
+
+
+class BestSpeaker(generics.ListAPIView):
+    """
+    Return a list of members who have won best speaker
+    """
+
+    model = Member
+    serializer_class = BestSpeakerSerializer
+
+    def get_queryset(self):
+        
+
+        start = self.request.query_params.get('start', '2000-01-01')
+        end = self.request.query_params.get('end', '2025-01-01')
+        if len(start) == 0:
+            start = '2000-01-01'
+        if len(end) == 0:
+            end = '2025-01-01'
+        
+
+        sql_query = """SELECT CM.id,CM.es_id,full_name,join_date,count(*) wins
+                FROM club_attendance A
+            JOIN club_meeting M On M.id=A.meeting_id
+            JOIN club_member CM ON CM.id = A.member_id
+            JOIN club_memberaward CMA ON CMA.meeting_id = M.id and CMA.member_id=CM.id               
+             JOIN club_award AW ON AW.id = CMA.award_id
+             where AW.title = 'Best Speaker Award'
+             and  M.date > %s and M.date < %s
+             GROUP BY CM.id,CM.es_id,full_name,join_date
+             """
+
+
+       
+        result = Member.objects.raw(sql_query, [start, end])
+            
+        return result
+
+
+class BestEvaluator(generics.ListAPIView):
+    """
+    Return a list of members who have won best evaluator
+    """
+
+    model = Member
+    serializer_class = BestSpeakerSerializer
+
+    def get_queryset(self):
+        
+
+        start = self.request.query_params.get('start', '2000-01-01')
+        end = self.request.query_params.get('end', '2025-01-01')
+        if len(start) == 0:
+            start = '2000-01-01'
+        if len(end) == 0:
+            end = '2025-01-01'
+        
+
+        sql_query = """SELECT CM.id,CM.es_id,full_name,join_date,count(*) wins
+                FROM club_attendance A
+            JOIN club_meeting M On M.id=A.meeting_id
+            JOIN club_member CM ON CM.id = A.member_id
+            JOIN club_memberaward CMA ON CMA.meeting_id = M.id and CMA.member_id=CM.id               
+             JOIN club_award AW ON AW.id = CMA.award_id
+             where AW.title = 'Best Evaluator Award'
+             and  M.date > %s and M.date < %s
+             GROUP BY CM.id,CM.es_id,full_name,join_date
+             """
+
+
+       
+        result = Member.objects.raw(sql_query, [start, end])
+            
+        return result
+
+
+class BestTableTopicSpeaker(generics.ListAPIView):
+    """
+    Return a list of members who have won best evaluator
+    """
+
+    model = Member
+    serializer_class = BestSpeakerSerializer
+
+    def get_queryset(self):
+        
+
+        start = self.request.query_params.get('start', '2000-01-01')
+        end = self.request.query_params.get('end', '2025-01-01')
+        if len(start) == 0:
+            start = '2000-01-01'
+        if len(end) == 0:
+            end = '2025-01-01'
+        
+
+        sql_query = """SELECT CM.id,CM.es_id,full_name,join_date,count(*) wins
+                FROM club_attendance A
+            JOIN club_meeting M On M.id=A.meeting_id
+            JOIN club_member CM ON CM.id = A.member_id
+            JOIN club_memberaward CMA ON CMA.meeting_id = M.id and CMA.member_id=CM.id               
+             JOIN club_award AW ON AW.id = CMA.award_id
+             where AW.title = 'Best Table Topics Award'
+             and  M.date > %s and M.date < %s
+             GROUP BY CM.id,CM.es_id,full_name,join_date
+             """
+
+
+       
+        result = Member.objects.raw(sql_query, [start, end])
+            
+        return result
+
+
+
+
+

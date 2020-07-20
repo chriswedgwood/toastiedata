@@ -60,31 +60,18 @@ class ToastieData extends Component {
 
   componentDidMount() {
 
-
-    //let day = new Date().toLocaleString('en-us', { weekday: 'long' });
-
-    //this.setState({ showPostcode: 1 })
-    //day, search, timeBand, access, isSearchChange, covid
     this.getResults(this.state.area, this.state.start, this.state.end);
-
-
 
   }
 
 
 
   onAreaChange = data => {
-
-
-
     this.setState({ showSpinner: 1, area: data });
-    //this.getResults(data, this.state.search, this.state.timeBand, this.state.access, 0, this.state.covid, this.state.meetingType);
-
   }
 
 
   onStartChange = data => {
-
 
     this.setState({ showSpinner: 1, start: data });
     this.getResults(this.state.area, data, this.state.end);
@@ -114,13 +101,22 @@ class ToastieData extends Component {
       firstCode = members[0].es_id + members.length + meetingCount;
     }
 
+    let areaDisplay
+    if (area === 'Members' && members.length > 0 ) 
+    {
+      areaDisplay = <ToastieDataTable key={firstCode} members={members} />
+    }
+    else{
+      areaDisplay = <div>THIS IS THE LEADERBOARD AREA</div>
+    }
 
     return (
 
       <div>
         <ToastieDataSearchForm onAreaChange={this.onAreaChange} onStartChange={this.onStartChange} onEndChange={this.onEndChange}
           start={start} end={end} area={area} />
-        <ToastieDataTable key={firstCode} members={members} />
+          {areaDisplay}
+        
       </div>
 
 

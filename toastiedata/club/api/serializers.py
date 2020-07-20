@@ -18,3 +18,16 @@ class MemberSerializer(serializers.ModelSerializer):
             "role_count",
             "speech_count",
         ]
+
+
+class BestSpeakerSerializer(serializers.ModelSerializer):
+    wins = serializers.IntegerField()
+
+    class Meta:
+        model = Member
+        fields = [
+            "full_name",
+            "es_id",
+            "join_date",
+            "wins",
+        ]
