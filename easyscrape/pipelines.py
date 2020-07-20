@@ -92,29 +92,30 @@ class MeetingPipeline(object):
                 award=award, member=member, meeting=meeting
             )
         for item_role in roles:
+            member, created = Member.objects.get_or_create(es_id=item_role[2])
+            if created:
+                member.full_name = attendee[0]
+                member.save()
+            m_attendance, _ = Attendance.objects.get_or_create(
+                    member=member, meeting=meeting
+                )
+
             role_title = item_role[0]
             if 'Educational' in item_role[0]:
                 role_title = 'Educational'
+            elif 'Contestant' in item_role[0]:
+                role_title = 'Contestant'
+            elif 'Club Business' in item_role[0]:
+                role_title = 'Club Business'
             elif 'Topic Evaluator' in item_role[0]:
                 role_title = 'Table Topics Evaluator'
             elif 'Evaluator' in item_role[0]:
                 role_title = 'Speech Evaluator'
             elif 'Speaker' in item_role[0]:
                 role_title = 'Speaker'
-            if role_title not in ['Speaker']:
+            if role_title not in ['Speaker', 'Contestant','Club Business']:
                 role, _ = Role.objects.get_or_create(title=role_title)
-            
-            m_attendance, _ = Attendance.objects.get_or_create(
-                member=member, meeting=meeting
-            )
-
-
-            member, created = Member.objects.get_or_create(es_id=item_role[2])
-            if created:
-                member.full_name = attendee[0]
-                member.save()
-            
-            meeting_role, _ = MemberRole.objects.get_or_create(member=member, role=role, meeting=meeting)
+                _, _ = MemberRole.objects.get_or_create(member=member, role=role, meeting=meeting)
             
             
             #    role, _ = Role.objects.get_or_create(title=item['role'])
