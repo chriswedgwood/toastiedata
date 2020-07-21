@@ -19,8 +19,8 @@ urlpatterns = router.urls
 urlpatterns += [
     path("members/", MemberList.as_view()),
     path("bestspeakers/", BestSpeaker.as_view()),
-    path("bestevaluators/", BestSpeaker.as_view()),
-    path("besttabletopicspeakers/", BestSpeaker.as_view()),
+    path("bestevaluators/", BestEvaluator.as_view()),
+    path("besttabletopicspeakers/", BestTableTopicSpeaker.as_view()),
     
 
 ]
