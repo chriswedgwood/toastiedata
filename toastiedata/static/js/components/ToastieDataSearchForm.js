@@ -60,15 +60,12 @@ class ToastieDataSearchForm extends React.Component {
     )
 
 
-
-
-
     return (
 
       <div className={'toastie-search-form'}>
         <Form autoComplete="off">
-          <Row className="justify-content-center ">
-            <Col className="days" xs={10}>
+          <Row className="">
+            <Col className="days" xs={6}>
               <Nav fill variant="pills" activeKey={activeIndex} defaultActiveKey="0" >
                 {reportNav}
 
@@ -76,9 +73,9 @@ class ToastieDataSearchForm extends React.Component {
               </Nav>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <DateInput
+          <Row > 
+            <Col xs={3}>
+              <DateInput className='date-input'
                 name="date"
                 placeholder="From"
                 value={start}
@@ -88,14 +85,15 @@ class ToastieDataSearchForm extends React.Component {
 
               />
             </Col>
-            <Col>
-              <DateInput
+            <Col xs={3}>
+              <DateInput className='date-input'
                 name="date"
                 placeholder="To"
                 value={end}
                 iconPosition="right"
                 onChange={this.handleEndChange}
                 dateFormat="YYYY-MM-DD"
+
               />
             </Col>
           </Row>
