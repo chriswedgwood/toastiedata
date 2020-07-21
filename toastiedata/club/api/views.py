@@ -87,6 +87,8 @@ class BestSpeaker(generics.ListAPIView):
              where AW.title = 'Best Speaker Award'
              and  M.date > %s and M.date < %s
              GROUP BY CM.id,CM.es_id,full_name,join_date
+             ORDER BY count(*) Desc
+             LIMIT 5
              """
 
 
@@ -124,6 +126,8 @@ class BestEvaluator(generics.ListAPIView):
              where AW.title = 'Best Evaluator Award'
              and  M.date > %s and M.date < %s
              GROUP BY CM.id,CM.es_id,full_name,join_date
+              ORDER BY count(*) Desc
+             LIMIT 5
              """
 
 
@@ -161,6 +165,8 @@ class BestTableTopicSpeaker(generics.ListAPIView):
              where AW.title = 'Best Table Topics Award'
              and  M.date > %s and M.date < %s
              GROUP BY CM.id,CM.es_id,full_name,join_date
+              ORDER BY count(*) Desc
+             LIMIT 5
              """
 
 

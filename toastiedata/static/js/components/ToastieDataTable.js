@@ -44,9 +44,7 @@ class ToastieDataTable extends Component {
     const { column, data, direction } = this.state
    
     let showPostcode = this.props.showPostcode;
-    console.log('dataA');
-    console.log(this.state);
-    console.log('dataB');
+    
 
     let tbl = _.map(data, ({ full_name , es_id, meeting_count, role_count, speech_count}) => {
       

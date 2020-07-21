@@ -5,12 +5,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import ToastieDataSearchForm from './components/ToastieDataSearchForm';
 import ToastieDataTable from './components/ToastieDataTable';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container'
-import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import * as geolib from 'geolib';
-import Table from 'react-bootstrap/Table';
+import AwardsDataTable  from './components/AwardsDataTable';
 //import ToastieDataTable from './components/ToastieDataTable';
 import Spinner from 'react-bootstrap/Spinner'
 import _ from 'lodash'
@@ -26,7 +21,7 @@ class ToastieData extends Component {
 
 
     this.state = {
-      area: 'Members', start: '', end: '', members: []
+      area: 'Members', start: '', end: '', members: [],bestSpeakers: [],bestEvaluators: [],bestTableTopicSpeakers: []
 
     };
   }
@@ -41,18 +36,40 @@ class ToastieData extends Component {
     /*let timeBandSend = timeBand === 'all' ? '' : timeBand
     let daySend = day === 'all' ? '' : day
     let meetingTypeSend = meetingType === 'all' ? '' : meetingType
-*/
+*/  
+if (area === 'Members'){
+
     let queryString = `/api/members/?start=${start}&end=${end}`;
     console.log(queryString);
     const memberQuery = axios.get(queryString);
     axios.all([memberQuery]).then(axios.spread((...responses) => {
-    let members = responses[0].data;
-    this.setState({ area: 'Members', start: start, end: end, members: members, showSpinner: 0 });
-
-
-
+      let members = responses[0].data;
+      this.setState({ area: area, start: start, end: end, members: members, showSpinner: 0 });
     }))
+  }else
+  {
+    let bestSpeakersQueryString = `/api/bestspeakers/?start=${start}&end=${end}`;
+    let bestEvaluatorsSpeakersQueryString = `/api/bestevaluators/?start=${start}&end=${end}`;
+    let bestTableTopicsSpeakersQueryString = `/api/besttabletopicspeakers/?start=${start}&end=${end}`;
+    console.log(bestSpeakersQueryString)
+    const bestSpeakersQuery = axios.get(bestSpeakersQueryString);
+    const bestEvaluatorsQuery = axios.get(bestEvaluatorsSpeakersQueryString);
+    const bestTableTopicSpeakersQuery = axios.get(bestTableTopicsSpeakersQueryString);
+    axios.all([bestSpeakersQuery, bestEvaluatorsQuery, bestTableTopicSpeakersQuery ]).then(axios.spread((...responses) => {
+      console.log(responses)
+      
+      let bestSpeakers = responses[0].data;
+      let bestEvaluators = responses[1].data;
+      let bestTableTopicSpeakers = responses[2].data;
+      console.log('XXXXXXX')
+      console.log(bestSpeakers)
+      console.log('XXXXXXX')
 
+      this.setState({ area: area, start: start, end: end, bestSpeakers:bestSpeakers ,bestEvaluators: bestEvaluators,
+        bestTableTopicSpeakers: bestTableTopicSpeakers, showSpinner: 0 });
+    }))
+    
+  }
 
 
 
@@ -68,6 +85,8 @@ class ToastieData extends Component {
 
   onAreaChange = data => {
     this.setState({ showSpinner: 1, area: data });
+    this.getResults(data, this.state.start, this.state.end);
+
   }
 
 
@@ -90,10 +109,9 @@ class ToastieData extends Component {
 
   render() {
 
-    let { area, start, end, members } = this.state;
+    let { area, start, end, members,bestSpeakers, bestEvaluators ,bestTableTopicSpeakers } = this.state;
 
-
-   
+    
 
     let firstCode = 0;
     if (members.length > 0) {
@@ -101,13 +119,18 @@ class ToastieData extends Component {
       firstCode = members[0].es_id + members.length + meetingCount;
     }
 
+    
+
     let areaDisplay
     if (area === 'Members' && members.length > 0 ) 
     {
       areaDisplay = <ToastieDataTable key={firstCode} members={members} />
     }
     else{
-      areaDisplay = <div>THIS IS THE LEADERBOARD AREA</div>
+      areaDisplay = <div><AwardsDataTable title='Best Speakers' data={bestSpeakers} />
+      <AwardsDataTable title='Best Evaluators' data={bestEvaluators} />
+      <AwardsDataTable title='Best Table Topics Speakers' data={bestTableTopicSpeakers} /> 
+      </div>
     }
 
     return (
